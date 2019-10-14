@@ -9,10 +9,17 @@ import UIKit
 let numbers = [1,1,2,4,4,4,6,6,7,8]
 
 var numbersWithNoDuplicates = [Int]()
+var numbersSet = [Int](Set(numbers))
 
-// Your code here
+for (_,num) in numbers.enumerated() {
+    if !numbersWithNoDuplicates.contains(num) {
+        numbersWithNoDuplicates.append(num)
+    }
+}
+print(numbersWithNoDuplicates)
+  
 
-//assert(numbersWithNoDuplicates == [1,2,4,6,7,8], "Was expecting [1,2,4,6,7,8], but got \(numbersWithNoDuplicates)")
+assert(numbersWithNoDuplicates == [1,2,4,6,7,8], "Was expecting [1,2,4,6,7,8], but got \(numbersWithNoDuplicates)")
 
 // Questions Two
 
@@ -22,9 +29,19 @@ let scores = [1, 77, 83, 32, 77, 77, 83, 32, 99]
 
 var scoresThatAppearOnce = [Int]()
 
-// Your code here
-
-//assert(scoresThatAppearOnce == [1, 99], "Was expecting [1, 99], but got \(scoresThatAppearOnce)")
+var visitedScores: Set<Int> = []
+for (_,score) in scores.enumerated() {
+  if !visitedScores.contains(score) {
+    visitedScores.insert(score)
+    scoresThatAppearOnce.append(score)
+  } else {
+    if let foundIndex = scoresThatAppearOnce.firstIndex(of: score) {
+      scoresThatAppearOnce.remove(at: foundIndex)
+    }
+  }
+}
+scoresThatAppearOnce = scoresThatAppearOnce.sorted()
+assert(scoresThatAppearOnce == [1, 99], "Was expecting [1, 99], but got \(scoresThatAppearOnce)")
 
 // Question Three
 
@@ -37,9 +54,20 @@ let arrTwo = [3,4,5,6,7]
 
 var arrThree: [Int] = []
 
-// Your code here
 
-//assert(arrThree == [1,2,3,4,5,6,7], "Was expecting [1,2,3,4,5,6,7], but got \(arrThree)")
+for (_,num) in arrOne.enumerated() {
+    if !arrThree.contains(num) {
+    arrThree.append(num)
+    }
+}
+for (_,num) in arrTwo.enumerated() {
+    if !arrThree.contains(num) {
+        arrThree.append(num)
+    }
+}
+print(arrThree)
+arrThree = arrThree.sorted()
+assert(arrThree == [1,2,3,4,5,6,7], "Was expecting [1,2,3,4,5,6,7], but got \(arrThree)")
 
 // b.
 
@@ -48,11 +76,15 @@ var arrThree: [Int] = []
 let arrFour = [1,2,3,4,5]
 let arrFive = [3,4,5,6,7]
 
+
 var arrSix: [Int] = []
+var arrayFour = Set<Int> (arrFour)
+var arrayFive = Set<Int> (arrFive)
+var intersectingArray = arrayFour.intersection(arrayFive)
+arrSix = intersectingArray.sorted()
 
-// Your code here
 
-//assert(arrSix == [3,4,5], "Was expecting [3,4,5], but got \(arrSix)")
+assert(arrSix == [3,4,5], "Was expecting [3,4,5], but got \(arrSix)")
 
 // Question Four
 
@@ -64,10 +96,31 @@ let numsThree = [5, 6, 7, 8, 9, 10, 11, 12]
 let numsFour = [1, 3, 4, 5, 6, 7, 9]
 
 var allNumsWithNoDuplicates: [Int] = []
+var allNums = [Int]()
+for num in numsOne {
+    if !allNums.contains(num) {
+        allNums.append(num)
+    }
+}
+for num in numsTwo {
+    if !allNums.contains(num) {
+        allNums.append(num)
+    }
+}
+for num in numsThree{
+    if !allNums.contains(num) {
+        allNums.append(num)
+    }
+}
+for num in numsFour {
+    if !allNums.contains(num) {
+        allNums.append(num)
+    }
+}
 
-// Your code here
+allNumsWithNoDuplicates = allNums.sorted()
 
-//assert(allNumsWithNoDuplicates == [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "Was expecting [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], but got \([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])")
+assert(allNumsWithNoDuplicates == [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "Was expecting [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], but got \([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])")
 
 
 // Question Five
@@ -84,11 +137,33 @@ var strOneIsPangram: Bool = false
 var strTwoIsPangram: Bool = false
 var strThreeIsPangram: Bool = false
 
-// Your code here
+let alphabets: Set<Character> = Set("abcdefghijklmnopqrstuvwxyz")
 
-//assert(strOneIsPangram == true, "Was expecting true, but got \(strOneIsPangram)")
-//assert(strTwoIsPangram == false, "Was expecting false, but got \(strTwoIsPangram)")
-//assert(strThreeIsPangram == true, "Was expecting false, but got \(strThreeIsPangram)")
+var trimmedStr = ""
+for char in strOne.lowercased() {
+    if alphabets.contains(char) {
+        trimmedStr += String(char)
+}
+}
+
+for char in strTwo.lowercased() {
+    if alphabets.contains(char) {
+        trimmedStr += String(char)
+}
+}
+
+for char in strThree.lowercased() {
+    if alphabets.contains(char) {
+        trimmedStr += String(char)
+}
+}
+
+strOneIsPangram = Set(trimmedStr) == alphabets
+
+
+assert(strOneIsPangram == true, "Was expecting true, but got \(strOneIsPangram)")
+assert(strTwoIsPangram == false, "Was expecting false, but got \(strTwoIsPangram)")
+assert(strThreeIsPangram == true, "Was expecting false, but got \(strThreeIsPangram)")
 
 
 
